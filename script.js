@@ -74,6 +74,19 @@ function setupBadguys(num) {
     }
 }
 
+function moveEnemy() {
+    let tempEnemy = document.querySelectorAll('.baddy')
+    for (let enemy of tempEnemy) {
+        if (enemy.offsetTop > 550 || enemy.offsetTop < 0 || enemy.offsetLeft > 750 || enemy.offsetLeft< 0) {
+            enemy.parentNode.removeChild(enemy)
+            badmaker()
+        } else {
+            enemy.style.top = `${enemy.offsetTop + enemy.movery}px`
+            enemy.style.left = `${enemy.offsetLeft + enemy.moverx}px`
+        }
+    }
+}
+
 function badmaker() {
     let div = document.createElement('div')
     let myIcon = `fa-${icons[randomMe(icons.length)]}`
@@ -134,7 +147,7 @@ function playGame() {
     if (gamePlay) {
         moveShots()
         //update dashboard
-        //move enemy
+        moveEnemy()
         animateGame = requestAnimationFrame(playGame)
     }
 }
