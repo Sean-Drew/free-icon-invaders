@@ -75,6 +75,7 @@ body {
 }
 
 .box {
+    /* transform: rotate(30deg); */
     position: absolute;
     left: 385px;
     top: 285px;
@@ -96,4 +97,13 @@ body {
     bottom: 35%;
     border-radius: 5px;
     background-color: darkgray;
+}
+
+.fireme {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 0, 0.8);
+    border-radius: 50px;
+    z-index: 1;
 }
