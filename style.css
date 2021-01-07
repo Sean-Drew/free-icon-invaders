@@ -107,3 +107,12 @@ body {
     border-radius: 50px;
     z-index: 1;
 }
+
+.baddy {
+    position: absolute;
+    padding: 5px;
+    text-align: center;
+    border: 1px dotted #555;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+}

@@ -1,4 +1,5 @@
 // Global variables
+const icons =  ["bars", "bug", "bowling-ball", "coffee", "couch", "football-ball", "gem", "laptop"] // Bring some icons in from fontawesome CDN
 const btnStart = document.querySelector('.btnStart')
 const gameOverEle = document.getElementById('gameOverEle')
 const container = document.getElementById('container')
@@ -59,8 +60,61 @@ function startGame() {
             barwidth: 100,
             lives: 100
         }
-        //setup badguys
+        setupBadguys(10)
     animateGame = requestAnimationFrame(playGame)
+}
+
+function randomMe(num) {
+    return Math.floor(Math.random() * num)
+}
+
+function setupBadguys(num) {
+    for (let x = 0; x < num; x++) {
+        badmaker()
+    }
+}
+
+function badmaker() {
+    let div = document.createElement('div')
+    let myIcon = `fa-${icons[randomMe(icons.length)]}`
+    let x, y, xmove, ymove
+    let randomStart = randomMe(4)
+    let dirSet = randomMe(4) + 1
+    let dirPos = randomMe(7) - 3
+    switch (randomStart) {
+        case 0:
+            x = 0
+            y = randomMe(600)
+            ymove = dirPos
+            xmove = dirSet
+            break
+        case 1:
+            x = 800
+            y = randomMe(600)
+            ymove = dirPos
+            xmove = dirSet * (-1)
+            break
+        case 2:
+            x = randomMe(800)
+            y = 0
+            ymove = dirSet
+            xmove = dirPos
+            break
+        case 3:
+            x = randomMe(800)
+            y = 600
+            ymove = dirSet * (-1)
+            xmove = dirPos
+            break
+    }
+    div.innerHTML = `<i class="fas ${myIcon}"></i>`
+    div.setAttribute('class', 'baddy')
+    div.style.fontSize = `${randomMe(20) + 30}px`
+    div.style.left = `${x}px`
+    div.style.top = `${y}px`
+    div.moverx = xmove
+    div.movery = ymove
+    container.appendChild(div)
 }
 
 function moveShots() {
