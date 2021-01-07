@@ -3,6 +3,7 @@ const icons =  ["bars", "bug", "bowling-ball", "coffee", "couch", "football-ball
 const btnStart = document.querySelector('.btnStart')
 const gameOverEle = document.getElementById('gameOverEle')
 const container = document.getElementById('container')
+const base = document.querySelector('.base')
 const box = document.querySelector('.box')
 const boxCenter = [
     box.offsetLeft + (box.offsetWidth / 2),
@@ -12,6 +13,8 @@ const boxCenter = [
 let gamePlay = false
 let player
 let animateGame
+// let rect = box.getBoundingClientRect()
+// console.log('rect is: ', rect)
 
 // Event listeners
 btnStart.addEventListener('click', startGame)
@@ -26,6 +29,14 @@ function movePostion(e) {
     box.style.msTransform = `rotate(${deg}deg)`
     box.style.oTransform = `rotate(${deg}deg)`
     box.style.transform = `rotate(${deg}deg)`
+}
+
+function isCollide(a, b) {
+    let aRect = a.getBoundingClientRect()
+    let bRect = b.getBoundingClientRect()
+    return !(
+        (aRect.bottom < bRect.top) || (aRect.top > bRect.bottom) || (aRect.right < bRect.left) || (aRect.left > bRect.right)
+    )
 }
 
 function getDeg(e) {
@@ -76,6 +87,7 @@ function setupBadguys(num) {
 
 function moveEnemy() {
     let tempEnemy = document.querySelectorAll('.baddy')
+    let hitter = false
     for (let enemy of tempEnemy) {
         if (enemy.offsetTop > 550 || enemy.offsetTop < 0 || enemy.offsetLeft > 750 || enemy.offsetLeft< 0) {
             enemy.parentNode.removeChild(enemy)
@@ -84,6 +96,17 @@ function moveEnemy() {
             enemy.style.top = `${enemy.offsetTop + enemy.movery}px`
             enemy.style.left = `${enemy.offsetLeft + enemy.moverx}px`
         }
+        if (isCollide(box, enemy)) {
+            // console.log('COLLISION')
+            hitter = true
+            player.lives--
+        }
+    }
+    if (hitter) {
+        base.style.backgroundColor = 'red'
+        hitter = false
+    } else {
+        base.style.backgroundColor = ''
     }
 }
 
