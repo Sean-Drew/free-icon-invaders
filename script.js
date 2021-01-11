@@ -9,6 +9,8 @@ const boxCenter = [
     box.offsetLeft + (box.offsetWidth / 2),
     box.offsetTop + (box.offsetHeight / 2)
 ]
+const scoreDash = document.querySelector('.scoreDash')
+const progressBar = document.querySelector('.progress-bar')
 
 let gamePlay = false
 let player
@@ -22,6 +24,12 @@ container.addEventListener('mousedown', mouseDown)
 container.addEventListener('mousemove', movePostion)
 
 // Game logic
+function updateDash() {
+    scoreDash.innerHTML = player.score
+    let tempPer = `${(player.lives / player.barwidth) * 100}%`
+    progressBar.style.width = tempPer
+}
+
 function movePostion(e) {
     let deg = getDeg(e)
     box.style.webkitTransform = `rotate(${deg}deg)`
@@ -169,7 +177,7 @@ function moveShots() {
 function playGame() {
     if (gamePlay) {
         moveShots()
-        //update dashboard
+        updateDash()
         moveEnemy()
         animateGame = requestAnimationFrame(playGame)
     }
