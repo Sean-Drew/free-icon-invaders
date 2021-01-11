@@ -112,6 +112,8 @@ function setupBadguys(num) {
 function moveEnemy() {
     let tempEnemy = document.querySelectorAll('.baddy')
     let hitter = false
+    let tempShots = document.querySelectorAll('.fireme')
+
     for (let enemy of tempEnemy) {
         if (enemy.offsetTop > 550 || enemy.offsetTop < 0 || enemy.offsetLeft > 750 || enemy.offsetLeft< 0) {
             enemy.parentNode.removeChild(enemy)
@@ -119,6 +121,17 @@ function moveEnemy() {
         } else {
             enemy.style.top = `${enemy.offsetTop + enemy.movery}px`
             enemy.style.left = `${enemy.offsetLeft + enemy.moverx}px`
+            for (let shot of tempShots) {
+                if (isCollide(shot, enemy) && gamePlay) {
+                    // console.log('HIT')
+                    player.score += enemy.points
+                    enemy.parentNode.removeChild(enemy)
+                    shot.parentNode.removeChild(shot)
+                    updateDash()
+                    badmaker()
+                    break
+                }
+            }
         }
         if (isCollide(box, enemy)) {
             // console.log('COLLISION')
@@ -176,6 +189,7 @@ function badmaker() {
     div.style.fontSize = `${randomMe(20) + 30}px`
     div.style.left = `${x}px`
     div.style.top = `${y}px`
+    div.points = randomMe(5) + 1
     div.moverx = xmove
     div.movery = ymove
     container.appendChild(div)
