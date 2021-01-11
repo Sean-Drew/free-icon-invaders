@@ -24,6 +24,22 @@ container.addEventListener('mousedown', mouseDown)
 container.addEventListener('mousemove', movePostion)
 
 // Game logic
+
+function gameOver() {
+    cancelAnimationFrame(animateGame)
+    gameOverEle.style.display = 'block'
+    gameOverEle.querySelectorAll('span').innerHTML = `GAME OVER <br> Your Score is: ${player.score}`
+    gamePlay= false
+    let tempEnemy = document.querySelectorAll('.baddy')
+    for (let enemy of tempEnemy) {
+        enemy.parentNode.removeChild(enemy)
+    }
+    let tempShots = document.querySelectorAll('.fireme')
+    for (let shot of tempShots) {
+        shot.parentNode.removeChild(shot)
+    }
+}
+
 function updateDash() {
     scoreDash.innerHTML = player.score
     let tempPer = `${(player.lives / player.barwidth) * 100}%`
@@ -108,6 +124,9 @@ function moveEnemy() {
             // console.log('COLLISION')
             hitter = true
             player.lives--
+            if (player.lives < 0) {
+                gameOver()
+            }
         }
     }
     if (hitter) {
@@ -151,6 +170,7 @@ function badmaker() {
             xmove = dirPos
             break
     }
+    div.style.color = randomColor()
     div.innerHTML = `<i class="fas ${myIcon}"></i>`
     div.setAttribute('class', 'baddy')
     div.style.fontSize = `${randomMe(20) + 30}px`
@@ -159,6 +179,14 @@ function badmaker() {
     div.moverx = xmove
     div.movery = ymove
     container.appendChild(div)
+}
+
+function randomColor() {
+    function c() {
+        let hex = randomMe(256).toString(16)
+        return ('0' + String(hex)).substr(-2)
+    } 
+    return '#'+c()+c()+c()
 }
 
 function moveShots() {
