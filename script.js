@@ -28,7 +28,7 @@ container.addEventListener('mousemove', movePostion)
 function gameOver() {
     cancelAnimationFrame(animateGame)
     gameOverEle.style.display = 'block'
-    gameOverEle.querySelectorAll('span').innerHTML = `GAME OVER <br> Your Score is: ${player.score}`
+    gameOverEle.querySelector('span').innerHTML = `GAME OVER <br> Your Score is: ${player.score}`
     gamePlay= false
     let tempEnemy = document.querySelectorAll('.baddy')
     for (let enemy of tempEnemy) {
